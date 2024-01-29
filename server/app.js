@@ -12,7 +12,7 @@ const serverless = require("serverless-http");
 //middlewares
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
-app.use(morgan("tiny"));
+app.use(morgan("dev"));
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(bodyParser.json());
 

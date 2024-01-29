@@ -9,6 +9,8 @@ const {
   deletePost,
   getPosts,
   getDrafts,
+  getDraftsById,
+  getPostsById,
 } = require("../controllers/postControllers");
 const { authenticateUser } = require("../middlewares/authentication");
 
@@ -16,12 +18,14 @@ const { authenticateUser } = require("../middlewares/authentication");
 router.post("/drafts", authenticateUser, createDraft);
 router.put("/drafts/:id", authenticateUser, updateDraft);
 router.delete("/drafts/:id", authenticateUser, deleteDraft);
+router.get("/drafts/:id", authenticateUser, getDraftsById);
 router.get("/drafts", authenticateUser, getDrafts);
 
 // Posts
 router.post("/publish", authenticateUser, publishPost);
 router.put("/posts/:id", authenticateUser, updatePost);
 router.delete("/posts/:id", authenticateUser, deletePost);
+router.get("/posts/:id", getPostsById);
 router.get("/posts", getPosts);
 
 module.exports = router;

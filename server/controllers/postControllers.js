@@ -126,9 +126,20 @@ const deletePost = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-  const query =
-    "SELECT * FROM posts WHERE status = 'published'";
+  const query = "SELECT * FROM posts WHERE status = 'published'";
   db.execute(query, (err, posts) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ message: "Error fetching posts", error: err });
+    }
+    res.status(200).json({ posts });
+  });
+};
+const getPostsById = async (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM posts WHERE status = 'published' AND  id = ?";
+  db.execute(query, [id], (err, posts) => {
     if (err) {
       return res
         .status(500)
@@ -150,6 +161,18 @@ const getDrafts = async (req, res) => {
     res.status(200).json({ drafts });
   });
 };
+const getDraftsById = async (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM posts WHERE id = ? AND status = 'draft'";
+  db.execute(query, [id], (err, drafts) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ message: "Error fetching drafts", error: err });
+    }
+    res.status(200).json({ drafts });
+  });
+};
 
 module.exports = {
   createDraft,
@@ -159,5 +182,7 @@ module.exports = {
   updatePost,
   deletePost,
   getPosts,
+  getPostsById,
   getDrafts,
+  getDraftsById,
 };
